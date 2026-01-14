@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            padding: 60px;
+            text-align: center;
+            background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+        }
+        .border {
+            border: 10px double #2c3e50;
+            padding: 40px;
+        }
+        .certificate-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .recipient {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 30px 0;
+            color: #34495e;
+        }
+        .description {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 30px 0;
+            color: #555;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 14px;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="border">
+        <div class="certificate-title">CERTIFICATE</div>
+        <div class="subtitle">of Achievement</div>
+        <div class="description">This is to certify that</div>
+        <div class="recipient">{{title}}</div>
+        <div class="description">{{content}}</div>
+        <div class="footer">Awarded on {{date}}</div>
+    </div>
+</body>
+</html>

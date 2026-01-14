@@ -73,11 +73,11 @@ Generates and returns a PDF.
 **Request Body:**
 ```json
 {
-  "title": "Invoice #001",
-  "content": "Service description...",
-  "template": "invoice",
-  "templateHTML": "<html>...</html>"
+  "title": "Invoice #123",
+  "content": "This is your invoice",
+  "template": "certificate"
 }
+
 ```
 
 **Response:** PDF file (blob)

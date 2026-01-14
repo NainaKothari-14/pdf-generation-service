@@ -26,28 +26,6 @@ A dynamic PDF generation microservice built with Node.js and React. Features mul
 
 </div>
 
-## Project Structure
-
-```
-pdf-service/
-├── backend/
-│   ├── controllers/
-│   ├── routes/
-│   ├── services/
-│   ├── utils/
-│   ├── config/
-│   ├── index.js
-│   └── package.json
-│
-├── frontend/
-│   ├── src/
-│   ├── templates/
-│   ├── vite.config.js
-│   └── package.json
-│
-└── README.md
-```
-
 ## How It Works
 
 1. User selects a template from the dropdown
@@ -110,15 +88,6 @@ Generates and returns a PDF.
 - **Invoice**: Professional invoice layout with company details
 - **Certificate**: Formal certificate design with centered content
 
-## Future Enhancements
-
-- Editable templates from frontend
-- Cloud storage integration (S3, GCP)
-- PDF metadata storage in database
-- User authentication
-- Bulk PDF generation
-- Custom fonts and branding
-
 ## Notes
 
 - This service is stateless by design
@@ -129,3 +98,9 @@ Generates and returns a PDF.
 ## Author
 
 Naina Kothari
+
+---
+
+If you found this project helpful, please consider giving it a star on GitHub!
+
+<a href="https://github.com"><img src="https://img.shields.io/badge/Star-on%20GitHub-yellow?style=flat-square&logo=github" alt="Star on GitHub"></a>

@@ -122,28 +122,30 @@ body { font-family: 'Georgia', serif; margin: 0; padding: 40px; background: #f5f
       const base = import.meta.env.VITE_API_BASE_URL;
       console.log("VITE_API_BASE_URL =", base);
   
-      const res = await fetch(`${base}/pdf/generate`, {
+      const response = await fetch(`${base}/pdf/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, content, template }),
       });
   
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Backend returned:", res.status, text);
-        alert(`Backend error ${res.status}: ${text}`);
+      console.log("STATUS =", response.status);
+  
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error("Backend error:", errText);
+        alert(`Backend error ${response.status}: ${errText}`);
         return;
       }
   
-      const blob = await res.blob();
+      const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "generated.pdf";
-      a.click();
-    } catch (e) {
-      console.error("Request failed:", e);
-      alert("Request failed (CORS/URL/network). Open Console (F12) for details.");
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "generated.pdf";
+      link.click();
+    } catch (err) {
+      console.error("Request failed (CORS/URL/network):", err);
+      alert("Request failed (CORS/URL/network). Open Console (F12).");
     }
   };  
 

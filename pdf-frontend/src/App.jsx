@@ -119,25 +119,33 @@ body { font-family: 'Georgia', serif; margin: 0; padding: 40px; background: #f5f
 
   const generatePDF = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/pdf/generate`, {
+      const base = import.meta.env.VITE_API_BASE_URL;
+      console.log("VITE_API_BASE_URL =", base);
+  
+      const res = await fetch(`${base}/pdf/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, content, template, templateHTML: templates[template] })
+        body: JSON.stringify({ title, content, template }),
       });
-
-      const blob = await response.blob();
+  
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Backend returned:", res.status, text);
+        alert(`Backend error ${res.status}: ${text}`);
+        return;
+      }
+  
+      const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "generated.pdf");
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (err) {
-      console.error("Error generating PDF", err);
-      alert("Failed to generate PDF.");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "generated.pdf";
+      a.click();
+    } catch (e) {
+      console.error("Request failed:", e);
+      alert("Request failed (CORS/URL/network). Open Console (F12) for details.");
     }
-  };
+  };  
 
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif", maxWidth: "1400px", margin: "0 auto" }}>

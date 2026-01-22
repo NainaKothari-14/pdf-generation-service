@@ -1,34 +1,47 @@
-const fs = require('fs');
-const path = require('path');
-const puppeteer = require('puppeteer');
-const helpers = require('../utils/helpers');
+const fs = require("fs");
+const path = require("path");
+const puppeteer = require("puppeteer");
+const helpers = require("../utils/helpers");
 
-exports.createPDF = async ({ title, content, template = 'default' }) => {
-    // Path to the selected template
-    const templatePath = path.join(__dirname, `../templates/${template}.html`);
+exports.createPDF = async ({ title, content, template = "default" }) => {
+  const templatePath = path.join(__dirname, `../templates/${template}.html`);
 
-    // Read HTML template
-    let html = fs.readFileSync(templatePath, 'utf8');
+  let html = fs.readFileSync(templatePath, "utf8");
 
-    // Replace placeholders in HTML
-    html = html.replace('{{title}}', title || 'Default Title')
-               .replace('{{content}}', content || 'Default Content')
-               .replace('{{date}}', helpers.formatDate(new Date()));
+  html = html
+    .replace(/{{title}}/g, title || "Default Title")
+    .replace(/{{content}}/g, content || "Default Content")
+    .replace(/{{date}}/g, helpers.formatDate(new Date()));
 
+  let browser;
 
-    // Launch Puppeteer (important for deployment)
-    const browser = await puppeteer.launch({
-        headless: "new",
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  try {
+    browser = await puppeteer.launch({
+      headless: "new",
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--no-zygote",
+      ],
     });
 
     const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0' });
 
-    // Generate PDF
-    const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+    // ✅ FIX: avoid networkidle0 on Render (causes 30s timeout)
+    await page.setContent(html, { waitUntil: "domcontentloaded" });
 
-    await browser.close();
+    // small wait to let layout settle
+    await page.waitForTimeout(200);
 
-    return pdfBuffer; // Return the PDF buffer
+    const pdfBuffer = await page.pdf({
+      format: "A4",
+      printBackground: true,
+    });
+
+    return pdfBuffer;
+  } finally {
+    if (browser) await browser.close();
+  }
 };

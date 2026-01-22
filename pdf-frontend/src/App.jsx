@@ -119,7 +119,7 @@ body { font-family: 'Georgia', serif; margin: 0; padding: 40px; background: #f5f
 
   const generatePDF = async () => {
     try {
-      const response = await fetch("http://localhost:5002/pdf/generate", {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/pdf/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, content, template, templateHTML: templates[template] })

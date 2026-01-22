@@ -49,7 +49,7 @@ exports.createPDF = async ({ title, content, template = "default" }) => {
     await page.setContent(html, { waitUntil: "domcontentloaded", timeout: 60000 });
 
     // small settle time
-    await page.waitForTimeout(200);
+    await new Promise((r) => setTimeout(r, 200));
 
     return await page.pdf({ format: "A4", printBackground: true });
   } finally {

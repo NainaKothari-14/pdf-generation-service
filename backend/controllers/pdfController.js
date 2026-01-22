@@ -9,7 +9,10 @@ exports.generatePDF = async (req, res) => {
         res.setHeader('Content-Disposition', 'attachment; filename=generated.pdf');
         res.send(pdfBuffer);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to generate PDF' });
-    }
+        console.error("PDF generation error:", err);
+        return res.status(500).json({
+          error: "Failed to generate PDF",
+          details: err.message,
+        });
+      }      
 };

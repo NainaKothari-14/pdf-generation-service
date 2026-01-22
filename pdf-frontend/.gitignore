@@ -1,6 +1,6 @@
 .env
 node-modules
-.env.production
+
 
 # Logs
 logs
